@@ -1,12 +1,21 @@
+[colors]
+background = ${xrdb:color0:#222}
+foreground = ${xrdb:color7:#222}
+foreground-alt = ${xrdb:color7:#222}
+primary = ${xrdb:color1:#222}
+secondary = ${xrdb:color2:#222}
+alert = ${xrdb:color3:#222}
+
 [bar/i3wmthemer_bar]
+monitor = ${env:MONITOR:}
 width = 100%
 height = 20
 radius = 0
 fixed-center = false
 bottom = false
 
-background = #2f2f38
-foreground = #b0c4bb
+background = ${colors.background}
+foreground = ${colors.foreground}
 
 line-size = 3
 line-color =
@@ -25,9 +34,9 @@ font-1 = "Font Awesome 5 Free:style=Solid:size=10;1"
 font-2 = "Font Awesome 5 Brands:size=10;1"
 
 modules-left = i3
-modules-right = memory battery date eth wlan powermenu 
+modules-right = nm-launcher memory eth wlan filesystem battery date powermenu 
 
-tray-position =
+;tray-position =
 ;tray-padding =
 wm-restack = i3
 override-redirect = false
@@ -36,22 +45,26 @@ cursor-click = pointer
 cursor-scroll = ns-resize
 
 [module/i3]
+pin-workspaces = true
+strip-wsnumbers = true
 type = internal/i3
 format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
+
+label-mode = %mode%
 
 label-mode-padding = 2
 label-mode-foreground = #34343e
 label-mode-background = #2f2f38
 
 label-focused = %index%
-label-focused-background = #688486
+label-focused-background = ${colors.primary}
 label-focused-foreground = #2f2f38
 label-focused-padding = 2
 
 label-unfocused = %index%
-label-unfocused-background = #81a2be
+label-unfocused-background = ${colors.secondary}
 label-unfocused-foreground = #2f2f38
 label-unfocused-padding = 2
 
@@ -70,8 +83,8 @@ interface = wlp3s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-foreground = #2f2f38
-format-connected-background = #81a2be
+format-connected-foreground = ${colors.secondary}
+format-connected-background = ${colors.primary}
 format-connected-padding = 2
 label-connected = %essid%
 
@@ -82,7 +95,7 @@ ramp-signal-1 = 
 ramp-signal-2 = 
 ramp-signal-3 = 
 ramp-signal-4 = 
-ramp-signal-foreground = #2f2f38
+ramp-signal-foreground = ${colors.foreground}
 
 [module/eth]
 type = internal/network
@@ -98,6 +111,17 @@ label-connected = %local_ip%
 
 format-disconnected =
 
+[module/nm-launcher]
+type = custom/text
+content = 
+click-left = nm-connection-editor
+
+[module/filesystem]
+type = internal/fs
+mount-0 = /
+interval = 20
+label-mounted = free disk: %free% of %total%
+
 [module/date]
 type = internal/date
 interval = 5
@@ -109,8 +133,8 @@ time = %H:%M
 time-alt = %H:%M:%S
 
 format-prefix = 
-format-foreground = #2f2f38
-format-background = #81a2be
+format-foreground = ${colors.foreground}
+format-background = ${colors.primary}
 format-padding = 1
 
 label = %date% %time%
@@ -157,6 +181,7 @@ format-charging = <label-charging>
 label-charging = Charging %percentage%%
 bar-capacity-width = 10
 full-at = 99
+label-full = Fully charged
 
 battery = BAT0
 adapter = AC
@@ -178,7 +203,7 @@ bar-used-foreground-2 = #f5a70a
 bar-used-foreground-3 = #ff5555
 bar-used-fill = ▐
 bar-used-empty = ▐
-bar-used-empty-foreground = #444444
+bar-used-empty-foreground = ${colors.foreground}
 
 
 ; Seconds to sleep between updates
